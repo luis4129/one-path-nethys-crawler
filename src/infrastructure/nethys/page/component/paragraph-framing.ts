@@ -1,4 +1,4 @@
-import { Description } from "../../../../application/domain/documents";
+import { DescriptionProperty } from "../../../../application/domain/documents";
 import { FRAMING } from "../constants/classes";
 import { HEADING_3 } from "../constants/elements";
 import { paragraphProperty } from "./paragraph-property";
@@ -30,7 +30,7 @@ export class ParagraphFraming extends NethysComponent {
         )
     }
 
-    setDescriptionFraming(node: ChildNode, parentDescription: Array<Description>): ChildNode | null {
+    setDescriptionFraming(node: ChildNode, parentDescription: Array<DescriptionProperty>): ChildNode | null {
         return paragraphProperty.setDescriptionProperty(node, parentDescription);
     }
 

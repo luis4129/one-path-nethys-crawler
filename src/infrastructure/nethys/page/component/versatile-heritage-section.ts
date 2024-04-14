@@ -1,4 +1,4 @@
-import { Description } from "../../../../application/domain/documents";
+import { DescriptionProperty } from "../../../../application/domain/documents";
 import { TITLE } from "../constants/classes";
 import { BOLD, HEADING_1, HEADING_2, LINE_BREAK } from "../constants/elements";
 import { paragraphText } from "./paragraph-text";
@@ -38,7 +38,7 @@ export class VersatileHeritageSection extends NethysComponent {
 
                 const quirk = {
                     name: currentNode?.textContent?.trim() as string,
-                    descriptions: [] as Array<Description>
+                    descriptions: [] as Array<DescriptionProperty>
                 };
 
                 currentNode = skipUntilAncestryPage(currentNode);

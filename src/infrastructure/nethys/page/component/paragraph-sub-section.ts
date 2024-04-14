@@ -1,12 +1,15 @@
-import { Description } from "../../../../application/domain/documents";
+import { DescriptionProperty } from "../../../../application/domain/documents";
+import { DescriptionType } from "../../../../application/domain/documents/descriptions/description-type";
+import { DescriptionList } from "../../../../application/domain/documents/descriptions/types/description-list";
+import { DescriptionParagraph } from "../../../../application/domain/documents/descriptions/types/description-paragraph";
+import { DescriptionTable } from "../../../../application/domain/documents/descriptions/types/description-table";
 import { TITLE } from "../constants/classes";
-import { HEADING_1, HEADING_3, LINE_BREAK } from "../constants/elements";
+import { HEADING_3, LINE_BREAK } from "../constants/elements";
 import { actionContainer } from "./action-container";
 import { actionSubSection } from "./action-sub-section";
 import { listSection } from "./list-section";
 import { paragraphFraming } from "./paragraph-framing";
 import { paragraphProperty } from "./paragraph-property";
-import { paragraphSection } from "./paragraph-section";
 import { NethysComponent } from "./pattern";
 import { isStillSubSectionContent } from "./pattern/still-content";
 import { skippableProperty } from "./skippable-property";
@@ -50,8 +53,9 @@ export class ParagraphSubSection extends NethysComponent {
         )
     }
 
-    setDescriptionSubSection(node: ChildNode, parentDescription: Array<Description>): ChildNode | null {
-        const subSection = { label: node.textContent?.trim() as string, descriptions: [] as Array<Description> }
+    setDescriptionSubSection(node: ChildNode, parentDescription: Array<DescriptionProperty>): ChildNode | null {
+        const label = node.textContent?.trim() as string;
+        const descriptions = [] as Array<DescriptionProperty>;
         let currentNode = node.nextSibling;
         let currentParagraph: string | undefined;
 
@@ -64,18 +68,18 @@ export class ParagraphSubSection extends NethysComponent {
             const isLineBreak = currentNode.nodeName == LINE_BREAK;
 
             if (currentParagraph && (isFraming || isSkippableProperty || isProperty || isList || isLineBreak)) {
-                subSection.descriptions.push(currentParagraph.trim());
+                descriptions.push({ type: DescriptionType.Paragraph, value: { description: currentParagraph.trim() } });
                 currentParagraph = undefined;
             }
 
             if (isFraming) {
-                currentNode = paragraphFraming.setDescriptionFraming(currentNode, subSection.descriptions);
+                currentNode = paragraphFraming.setDescriptionFraming(currentNode, descriptions);
             } else if (isSkippableProperty) {
                 currentNode = skippableProperty.skipComponent(currentNode);
             } else if (isProperty) {
-                currentNode = paragraphProperty.setDescriptionProperty(currentNode, subSection.descriptions);
+                currentNode = paragraphProperty.setDescriptionProperty(currentNode, descriptions);
             } else if (isList) {
-                currentNode = listSection.setListDescription(currentNode, subSection.descriptions);
+                currentNode = listSection.setListDescription(currentNode, descriptions);
             } else {
                 if (currentText?.trim()) {
                     currentParagraph = currentParagraph || "";
@@ -85,9 +89,12 @@ export class ParagraphSubSection extends NethysComponent {
             }
         }
 
-        if (currentParagraph) subSection.descriptions.push(currentParagraph.trim());
+        if (currentParagraph) descriptions.push({ type: DescriptionType.Paragraph, value: { description: currentParagraph.trim() } });
 
-        parentDescription.push(subSection);
+        parentDescription.push({
+            type: DescriptionType.SubSection,
+            value: { label: label, descriptions: descriptions }
+        });
 
         return currentNode;
     }

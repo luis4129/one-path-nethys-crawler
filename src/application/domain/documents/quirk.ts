@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { Description } from "./description";
+import { Description } from "./descriptions/description";
 
 export interface Quirk {
     name: string,

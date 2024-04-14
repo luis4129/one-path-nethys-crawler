@@ -1,5 +1,5 @@
 import { TITLE } from "../../constants/classes";
-import { BOLD, HEADING_1, HEADING_2, HEADING_3 } from "../../constants/elements";
+import { BOLD, HEADING_1, HEADING_2, HEADING_3, HORIZONTAL_RULE, LINE_BREAK } from "../../constants/elements";
 import { actionContainer } from "../action-container";
 import { actionProperty } from "../action-property";
 import { actionSubSection } from "../action-sub-section";
@@ -27,7 +27,7 @@ export const isStillSubSectionContent = (node: ChildNode): boolean =>
     !skippableSubSection.isComponent(node) &&
     !(node.nodeName == HEADING_3 && (node as Element).className == TITLE)
 
-export const isStillPropertyContent = (node: ChildNode): boolean =>
+export const isStillParagraphContent = (node: ChildNode): boolean =>
     isStillSubSectionContent(node) &&
     !skippableProperty.isComponent(node) &&
-    node.nodeName != BOLD
+    ![BOLD, HORIZONTAL_RULE, LINE_BREAK].includes(node.nodeName)

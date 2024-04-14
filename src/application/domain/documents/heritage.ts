@@ -1,5 +1,5 @@
 import { Rarity } from "./rarity"
-import { Description } from "./description"
+import { Description } from "./descriptions/description"
 import { ObjectId } from "mongodb"
 
 export interface Heritage {

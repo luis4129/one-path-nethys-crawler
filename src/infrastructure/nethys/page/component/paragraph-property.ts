@@ -1,9 +1,10 @@
-import { Description } from "../../../../application/domain/documents";
-import { BOLD, LINE_BREAK } from "../constants/elements";
+import { DescriptionProperty } from "../../../../application/domain/documents";
+import { DescriptionType } from "../../../../application/domain/documents/descriptions/description-type";
+import { BOLD, HORIZONTAL_RULE, LINE_BREAK } from "../constants/elements";
 import { actionProperty } from "./action-property";
 import { listSection } from "./list-section";
 import { NethysComponent } from "./pattern";
-import { isStillPropertyContent } from "./pattern/still-content";
+import { isStillParagraphContent } from "./pattern/still-content";
 
 const ParagraphPropertiesRegex = [
     /\bPopular Edicts$/,
@@ -122,38 +123,29 @@ export class ParagraphProperty extends NethysComponent {
         )
     }
 
-    setDescriptionProperty(node: ChildNode, parentDescription: Array<Description>): ChildNode | null {
-        const property = {
-            label: node.textContent?.trim() as string,
-            descriptions: [] as Array<Description>
-        }
-
+    setDescriptionProperty(node: ChildNode, parentDescription: Array<DescriptionProperty>): ChildNode | null {
+        const label = node.textContent?.trim() as string;
         let currentNode = node.nextSibling;
         let currentParagraph: string | undefined;
 
-        while (currentNode && isStillPropertyContent(currentNode)) {
+        while (currentNode && isStillParagraphContent(currentNode)) {
             const currentText = currentNode.textContent;
-            const isList = listSection.isComponent(currentNode);
 
-            if (currentParagraph && (currentNode.nodeName == LINE_BREAK || isList)) {
-                property.descriptions.push(capitalize(currentParagraph.trim()));
-                currentParagraph = undefined;
+            if (currentText?.trim()) {
+                currentParagraph = currentParagraph || "";
+                currentParagraph += currentText;
             }
 
-            if (isList) {
-                currentNode = listSection.setListDescription(currentNode, property.descriptions);
-            } else {
-                if (currentText?.trim()) {
-                    currentParagraph = currentParagraph || "";
-                    currentParagraph += currentText;
-                }
-                currentNode = currentNode.nextSibling;
-            }
+            currentNode = currentNode.nextSibling;
         }
 
-        if (currentParagraph) property.descriptions.push(capitalize(currentParagraph.trim()));
+        if (currentParagraph) {
+            parentDescription.push({
+                type: DescriptionType.Paragraph,
+                value: { label: label, description: capitalize(currentParagraph.trim()) }
+            });
+        }
 
-        parentDescription.push(property);
         return currentNode;
     }
 

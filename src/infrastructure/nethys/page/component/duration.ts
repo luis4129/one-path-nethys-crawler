@@ -1,6 +1,6 @@
 import { BOLD, HORIZONTAL_RULE, LINE_BREAK } from "../constants/elements";
 import { NethysComponent } from "./pattern";
-import { isStillPropertyContent } from "./pattern/still-content";
+import { isStillParagraphContent } from "./pattern/still-content";
 
 export class Duration extends NethysComponent {
 
@@ -16,7 +16,7 @@ export class Duration extends NethysComponent {
 
                 object.durations = object.durations || []; ''
 
-                while (currentNode && isStillPropertyContent(currentNode) && ![HORIZONTAL_RULE, LINE_BREAK].includes(currentNode.nodeName)) {
+                while (currentNode && isStillParagraphContent(currentNode) && ![HORIZONTAL_RULE, LINE_BREAK].includes(currentNode.nodeName)) {
                     if (currentNode.textContent?.trim() == ",") {
                         object.durations.push(currentDuration.trim().replace(";", ""));
                         currentDuration = "";

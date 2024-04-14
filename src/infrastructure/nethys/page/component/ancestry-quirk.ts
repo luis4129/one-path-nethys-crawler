@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { Description, Quirk } from "../../../../application/domain/documents";
+import { DescriptionProperty, Quirk } from "../../../../application/domain/documents";
 import { TITLE } from "../constants/classes";
 import { HEADING_2 } from "../constants/elements";
 import { NethysObject } from "../object";
@@ -37,7 +37,7 @@ export class AncestryQuirk extends NethysComponent {
             (node, object) => {
                 const quirk = {
                     name: node.textContent?.trim() as string,
-                    descriptions: [] as Array<Description>
+                    descriptions: [] as Array<DescriptionProperty>
                 } as Quirk;
 
                 let currentNode = paragraphText.setParagraphDescriptions(node.nextSibling, quirk.descriptions);

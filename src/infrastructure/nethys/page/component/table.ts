@@ -1,5 +1,6 @@
-import { Description } from "../../../../application/domain/documents";
-import { DescriptionTable } from "../../../../application/domain/documents/description-table";
+import { DescriptionProperty } from "../../../../application/domain/documents";
+import { DescriptionType } from "../../../../application/domain/documents/descriptions/description-type";
+import { DescriptionTable } from "../../../../application/domain/documents/descriptions/types/description-table";
 import { TABLE, TABLE_BODY, TABLE_DATA, TABLE_ROW } from "../constants/elements";
 import { NethysComponent } from "./pattern";
 
@@ -14,7 +15,7 @@ class Table extends NethysComponent {
         )
     }
 
-    setTableDescription(node: ChildNode, parentDescription: Array<Description>): ChildNode | null {
+    setTableDescription(node: ChildNode, parentDescription: Array<DescriptionProperty>): ChildNode | null {
         const table = { headers: [], data: [] } as DescriptionTable;
         const tableElement = node as Element;
         const bodyElement = tableElement.querySelector(TABLE_BODY);
@@ -35,7 +36,7 @@ class Table extends NethysComponent {
             console.log("Table has no body");
         }
 
-        parentDescription.push(table);
+        parentDescription.push({ type: DescriptionType.Table, value: table });
         return node.nextSibling;
     }
 

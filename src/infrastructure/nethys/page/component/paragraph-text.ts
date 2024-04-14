@@ -1,4 +1,5 @@
-import { Description } from "../../../../application/domain/documents";
+import { DescriptionProperty } from "../../../../application/domain/documents";
+import { DescriptionType } from "../../../../application/domain/documents/descriptions/description-type";
 import { ANCHOR, HEADING_1, ITALIC, LINE_BREAK } from "../constants/elements";
 import { ELEMENT, TEXT } from "../constants/node-types";
 import { listSection } from "./list-section";
@@ -34,7 +35,7 @@ export class ParagraphText extends NethysComponent {
         )
     }
 
-    setParagraphDescriptions(nodeParam: ChildNode | null, descriptions: Array<Description>): ChildNode | null {
+    setParagraphDescriptions(nodeParam: ChildNode | null, descriptions: Array<DescriptionProperty>): ChildNode | null {
         let currentParagraph: string | undefined;
         let currentNode: ChildNode | null = nodeParam;
 
@@ -49,7 +50,7 @@ export class ParagraphText extends NethysComponent {
             const isLineBreak = currentNode.nodeName == LINE_BREAK;
 
             if (currentParagraph && (isSubSection || isFraming || isProperty || isList || isLineBreak)) {
-                descriptions.push(...this.processAncestryIntros(currentParagraph));
+                this.processAncestryIntros(currentParagraph).forEach(description => descriptions.push({ type: DescriptionType.Paragraph, value: { description: description } }));
                 currentParagraph = undefined;
             }
 
@@ -74,7 +75,7 @@ export class ParagraphText extends NethysComponent {
             }
         }
 
-        if (currentParagraph) descriptions.push(...this.processAncestryIntros(currentParagraph));
+        if (currentParagraph) this.processAncestryIntros(currentParagraph).forEach(description => descriptions.push({ type: DescriptionType.Paragraph, value: { description: description } }));
 
         return currentNode;
     }

@@ -1,4 +1,5 @@
-import { Description } from "../../../../application/domain/documents";
+import { DescriptionProperty } from "../../../../application/domain/documents";
+import { DescriptionType } from "../../../../application/domain/documents/descriptions/description-type";
 import { TITLE } from "../constants/classes";
 import { HEADING_2 } from "../constants/elements";
 import { AncestryQuirks } from "./ancestry-quirk";
@@ -35,11 +36,14 @@ export class ParagraphSection extends NethysComponent {
             (node, object) => {
                 const label = node.textContent?.trim() as string;
                 const property = {
-                    label: label == "Alignment and Religion" ? "Beliefs" : label,
-                    descriptions: [] as Array<Description>
+                    type: DescriptionType.Paragraph,
+                    value: {
+                        label: label == "Alignment and Religion" ? "Beliefs" : label,
+                        descriptions: [] as Array<DescriptionProperty>
+                    }
                 }
 
-                const currentNode = paragraphText.setParagraphDescriptions(node.nextSibling, property.descriptions);
+                const currentNode = paragraphText.setParagraphDescriptions(node.nextSibling, property.value.descriptions);
                 object.descriptions.push(property);
                 return currentNode;
             }

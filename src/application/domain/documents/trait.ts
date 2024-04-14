@@ -1,4 +1,4 @@
-import { Description } from "./description"
+import { Description } from "./descriptions/description"
 
 export interface Trait {
     _id?: string,

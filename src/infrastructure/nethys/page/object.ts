@@ -1,4 +1,4 @@
-import { AbilityType, Description, Quirk, Rarity } from "../../../application/domain/documents";
+import { AbilityType, DescriptionProperty, Quirk, Rarity } from "../../../application/domain/documents";
 import fetchPageContent from "./content";
 import { abilityBoosts, abilityFlaws, emptyText, hitPoints, image, languages, legacySubSection, legacyVersionRedirect, lineBreak, listSection, mainTitle, paragraphSection, paragraphSubSection, search, size, source, space, speed, table, trait, mechanicsTitle, paragraphText } from "./component";
 import { ancestryQuirk } from "./component/ancestry-quirk";
@@ -37,7 +37,7 @@ export class NethysObject {
     public traits?: Array<string>;
     public sources?: Array<string>;
     public pfsNote?: string;
-    public descriptions: Array<Description>;
+    public descriptions: Array<DescriptionProperty>;
     public grantedActions?: Array<NethysObject>;
     // Feats
     public level?: number;

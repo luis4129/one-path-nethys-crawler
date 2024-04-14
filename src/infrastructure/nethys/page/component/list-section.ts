@@ -1,4 +1,5 @@
-import { Description } from "../../../../application/domain/documents";
+import { DescriptionProperty } from "../../../../application/domain/documents";
+import { DescriptionType } from "../../../../application/domain/documents/descriptions/description-type";
 import { TITLE } from "../constants/classes";
 import { HEADING_2, UNORDERED_LIST } from "../constants/elements";
 import { NethysComponent } from "./pattern";
@@ -21,7 +22,7 @@ export class ListSection extends NethysComponent {
         )
     }
 
-    setListDescription(node: ChildNode, parentDescriptions: Array<Description>) {
+    setListDescription(node: ChildNode, parentDescriptions: Array<DescriptionProperty>) {
         const label = node.textContent?.trim() as string;
         const listElement = node.nextSibling;
 
@@ -33,7 +34,16 @@ export class ListSection extends NethysComponent {
             .map(line => line.textContent?.trim() || "")
             .filter(line => line !== "")
 
-        parentDescriptions.push({ label: label, descriptions: lines });
+        parentDescriptions.push({
+            type: DescriptionType.Section,
+            value: {
+                label: label,
+                descriptions: [{
+                    type: DescriptionType.List,
+                    value: { items: lines }
+                }]
+            }
+        });
         return listElement.nextSibling;
     }
 

@@ -7,6 +7,7 @@ import { NethysComponent } from "./pattern";
 import { HREF } from "../constants/attributes";
 import { TRAITS_URI } from "../constants/routes";
 import { ActionType } from "../../../../application/domain/documents/action-type";
+import { DescriptionType } from "../../../../application/domain/documents/descriptions/description-type";
 
 const ActivitiesWithoutIconRegex = [
     /\bPsychometric Assessment$/,
@@ -109,7 +110,7 @@ export class ActionProperty extends NethysComponent {
                         currentNode = currentNode.nextSibling;
                     }
                     const textWithoutParenthesis = currentNode?.textContent?.replace(")", "").trim();
-                    if (!!textWithoutParenthesis) grantedAction.descriptions.push(textWithoutParenthesis);
+                    if (!!textWithoutParenthesis) grantedAction.descriptions.push({ type: DescriptionType.Paragraph, value: { description: textWithoutParenthesis } });
                     currentNode = currentNode?.nextSibling || null;
                 } else if (currentNode?.textContent?.trim() == "(envision), or a different activation if otherwise specified;") {
                     grantedAction.traits = grantedAction.traits || [];

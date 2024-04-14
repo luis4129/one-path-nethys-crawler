@@ -1,6 +1,5 @@
 import { AbilityType } from "./ability-type";
-import { DescriptionProperty } from "./description-property";
-import { Description } from "./description";
+import { DescriptionProperty } from "./descriptions/description-property";
 import { Rarity } from "./rarity";
 import { Quirk } from "./quirk";
 
@@ -9,4 +8,4 @@ import { Heritage } from "./heritage";
 import { Feat } from "./feat";
 import { Trait } from "./trait";
 
-export { AbilityType, Ancestry, DescriptionProperty, Description, Feat, Rarity, Trait, Quirk, Heritage };
+export { AbilityType, Ancestry, DescriptionProperty, Feat, Rarity, Trait, Quirk, Heritage };

@@ -1,9 +1,9 @@
 import { Rarity } from "./rarity"
 import { AbilityType } from "./ability-type"
-import { Description } from "./description"
 import { Quirk } from "./quirk"
 import { Heritage } from "./heritage"
 import { Speed } from "./speed"
+import { DescriptionProperty } from "./descriptions/description-property"
 
 export interface Ancestry {
     _id?: string,
@@ -11,7 +11,7 @@ export interface Ancestry {
     rarity: Rarity,
     traits: Array<string>,
     sources: Array<string>,
-    descriptions: Array<Description>,
+    descriptions: Array<DescriptionProperty>,
     hitPoints: number,
     size: string,
     speed: Speed,

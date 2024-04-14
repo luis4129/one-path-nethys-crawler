@@ -1,6 +1,6 @@
 import { BOLD, HORIZONTAL_RULE, LINE_BREAK } from "../constants/elements";
 import { NethysComponent } from "./pattern";
-import { isStillPropertyContent } from "./pattern/still-content";
+import { isStillParagraphContent } from "./pattern/still-content";
 
 export class Cost extends NethysComponent {
 
@@ -16,7 +16,7 @@ export class Cost extends NethysComponent {
 
                 object.costs = object.costs || []; ''
 
-                while (currentNode && isStillPropertyContent(currentNode) && ![HORIZONTAL_RULE, LINE_BREAK].includes(currentNode.nodeName)) {
+                while (currentNode && isStillParagraphContent(currentNode) && ![HORIZONTAL_RULE, LINE_BREAK].includes(currentNode.nodeName)) {
                     if (currentNode.textContent?.trim() == ",") {
                         object.costs.push(currentCost.trim());
                         currentCost = "";

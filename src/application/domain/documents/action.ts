@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb"
 import { ActionType } from "./action-type"
-import { Description } from "./description"
+import { Description } from "./descriptions/description"
 import { OriginType } from "./origin-type"
 
 export interface Action {
